@@ -1,6 +1,7 @@
 // app/[alias]/page.tsx
 // This is a Server Component that reads the alias from the URL, looks it up in the database,
 // and uses the redirect() function to send the user to the original URL
+export const instant = false; // Explicitly tell Next.js that this route is intentionally blocking
 import { redirect } from "next/navigation";
 import clientPromise from "@/lib/mongodb";
 
