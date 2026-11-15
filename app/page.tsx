@@ -2,13 +2,18 @@
 // Displays the form for submitting a URL and alias
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
   const [message, setMessage] = useState("");
   const [shortUrl, setShortUrl] = useState("");
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,9 +41,18 @@ export default function Home() {
   return (
       <main style={{ maxWidth: "600px", margin: "50px auto", padding: "20px" }}>
         <h1>URL Shortener</h1>
+        <p style={{ color: "#666", marginBottom: "30px" }}>
+          Shorten your long URLs into compact, shareable links
+        </p>
+
+        <h2>Shorten a URL</h2>
+        <p style={{ color: "#666", marginBottom: "15px" }}>
+          Enter a long URL to create a shorter, shareable link
+        </p>
+
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "10px" }}>
-            <label htmlFor="url">Long URL:</label>
+          <div style={{ marginBottom: "15px" }}>
+            <label htmlFor="url">URL:</label>
             <input
                 id="url"
                 type="text"
@@ -49,18 +63,47 @@ export default function Home() {
                 required
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label htmlFor="alias">Alias:</label>
-            <input
-                id="alias"
-                type="text"
-                value={alias}
-                onChange={(e) => setAlias(e.target.value)}
-                placeholder="my-link"
-                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-                required
-            />
+
+          <div style={{ marginBottom: "15px" }}>
+            <label htmlFor="alias">Custom Alias:</label>
+            <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  marginTop: "5px",
+                  overflow: "hidden",
+                }}
+            >
+            <span
+                style={{
+                  padding: "8px",
+                  background: "#f5f5f5",
+                  color: "#666",
+                  fontSize: "14px",
+                  whiteSpace: "nowrap",
+                }}
+            >
+              {origin}/
+            </span>
+              <input
+                  id="alias"
+                  type="text"
+                  value={alias}
+                  onChange={(e) => setAlias(e.target.value)}
+                  placeholder="your-custom-alias"
+                  style={{
+                    flex: 1,
+                    padding: "8px",
+                    border: "none",
+                    outline: "none",
+                  }}
+                  required
+              />
+            </div>
           </div>
+
           <button type="submit" style={{ padding: "10px 20px" }}>
             Shorten
           </button>
